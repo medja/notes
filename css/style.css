@@ -1,0 +1,192 @@
+body {
+	font-family: 'PT Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote {
+	margin: 10px 0
+}
+
+h1 { font-size: 28px; }
+h2 { font-size: 24px; }
+h3 { font-size: 20px; }
+h4 { font-size: 18px; }
+h5 { font-size: 16px; }
+h6 { font-size: 14px; }
+
+p {
+	font-size: 16px;
+}
+
+textarea, code {
+	font-family: 'Cousine', monospace;
+}
+
+main, aside, #note, header, #source, #preview, footer {
+	position: fixed;
+}
+
+aside {
+	background: #eaeaea;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+aside h1, aside h2 {
+	margin: 0;
+	padding: 2px 8px;
+}
+
+aside h2 {
+	padding-top: 4px;
+}
+
+aside time {
+	padding: 0 8px;
+}
+
+aside article, aside h2 {
+	cursor: pointer;
+}
+
+aside h2 {
+	background: #333333;
+	color: #ffffff;
+}
+
+aside article:hover {
+	background: #e74c3c;
+	color: #ffffff;
+}
+
+main, #note {
+	display: none;
+}
+
+header {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 50px;
+	background: #eaeaea;
+}
+
+header input {
+	border: none;
+	background: none;
+	outline: none;
+	margin: 0;
+	padding: 0 10px;
+	height: 100%;
+	left: 0;
+	right: 0;
+	position: absolute;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+#source, #preview {
+	top: 60px;
+	left: 0;
+	right: 0;
+	bottom: 50px;
+	margin: 0 10px;
+	background: #eaeaea;
+}
+
+#source {
+	padding: 0 20px 20px 0;
+}
+
+#source textarea {
+	resize: none;
+	padding: 10px;
+	margin: 0;
+	background: none;
+	border: none;
+	height: 100%;
+	width: 100%;
+	outline: none;
+	font-size: 14px;
+}
+
+#preview {
+	padding: 0 10px;
+	overflow-y: scroll;
+}
+
+footer {
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 40px;
+	background: #eaeaea;
+}
+
+#back {
+	border: none;
+	padding: 0;
+	margin: 0;
+	background: #333333;
+	height: 100%;
+	outline: none;
+	cursor: pointer;
+	width: 80px;
+	color: #ffffff;
+	font-size: 22px;
+}
+
+main.edit #source {
+	display: none;
+}
+
+main.edit #preview {
+	display: block;
+}
+
+body.open main {
+	display: block;
+}
+
+body.open aside, body.open #note {
+	display: none;
+}
+
+@media all and (min-width: 360px) {
+	aside {
+		width: 360px;
+	}
+
+	aside article, aside h2 {
+		margin-bottom: 6px;
+	}
+}
+
+@media all and (min-width: 800px) {
+	#note {
+		display: block;
+		top: 0;
+		left: 360px;
+		right: 0;
+		height: 100%;
+		padding: 0 16px;
+		overflow-y: scroll;
+	}
+
+	#source {
+		margin: 0 5px 0 10px;
+		display: block;
+		right: 50%;
+	}
+
+	#preview {
+		margin: 0 10px 0 5px;
+		display: block;
+		left: 50%;
+	}
+
+	#switch {
+		display: none;
+	}
+}
