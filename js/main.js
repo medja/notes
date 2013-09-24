@@ -133,6 +133,47 @@ Date.prototype.format = function(format, utc) {
 		return parse;
 	})();
 	var app = function(db) {
+		var aside = document.querySelector("aside"),
+		note = document.querySelector("#note"),
+		main = document.querySelector("main"),
+		source = document.querySelector("#source textarea"),
+		preview = document.querySelector("#preview"),
+		title = document.querySelector("header input"),
+		back = document.querySelector("#back"),
+		mode = document.querySelector("#switch"),
+		hover = 0, item, store = [], saving = false,
+		display = function(note) {
+			store.unshift(note.time);
+			var element = document.createElement("article");
+			var title = document.createElement("h1");
+			title.innerHTML = note.title.escape();
+			element.appendChild(title);
+			var time = document.createElement("time");
+			var date = new Date(note.time);
+			time.setAttribute("datetime", date.format(Date.ISO));
+			time.innerHTML = date.format("HH:mm DD/MM/YYYY");
+			element.appendChild(time);
+			aside.insertAfter(element, aside.children[0]);
+		},
+		fetch = function() {
+			return {
+				title: title.value.trim().ifEmpty(title.placeholder),
+				content: source.value,
+				tags: []
+			};
+		},
+		scroll = (function() {
+			var ignore = false;
+			return function(from, to) {
+				ignore = !ignore;
+				if (ignore) {
+					console.log(new Date().getTime());
+					to.scrollTop = from.scrollTop *
+						(to.scrollHeight - to.clientHeight) /
+						(from.scrollHeight - from.clientHeight);
+				}
+			};
+		})();
 		this.find = function(args, callback) {
 			if (callback == undefined) {
 				callback = args;
@@ -158,10 +199,13 @@ Date.prototype.format = function(format, utc) {
 		this.add = function(item, callback) {
 			item.time = new Date().getTime();
 			db.transaction("notes", "readwrite").objectStore("notes").add(item).onsuccess = function() {
+				display(item);
 				if (callback != undefined) callback.call(null, item);
 			};
 		};
 		this.remove = function(item, callback) {
+			aside.children[store.indexOf(item) + 1].remove();
+			store.splice(store.indexOf(item), 1);
 			db.transaction("notes", "readwrite").objectStore("notes").delete(item).onsuccess = function() {
 				if (callback != undefined) callback.call(null);
 			};
@@ -171,84 +215,45 @@ Date.prototype.format = function(format, utc) {
 				this.add(update, callback);
 			}.bind(this));
 		};
-		var aside = document.querySelector("aside"),
-		note = document.querySelector("#note"),
-		source = document.querySelector("#source textarea"),
-		preview = document.querySelector("#preview"),
-		title = document.querySelector("header input"),
-		back = document.querySelector("#back"),
-		hover = 0, store, item, open, saving = false,
-		display = function(note) {
-			var element = document.createElement("article");
-			var title = document.createElement("h1");
-			title.innerHTML = note.title.escape();
-			element.appendChild(title);
-			var time = document.createElement("time");
-			var date = new Date(note.time);
-			time.setAttribute("datetime", date.format(Date.ISO));
-			time.innerHTML = date.format("HH:mm DD/MM/YYYY");
-			element.appendChild(time);
-			aside.insertAfter(element, aside.children[0]);
-		},
-		fetch = function() {
-			return {
-				title: title.value.trim().ifEmpty(title.placeholder),
-				content: source.value,
-				tags: []
-			};
-		},
-		scroll = (function() {
-			var ignore = false;
-			return function(from, to) {
-				ignore = !ignore;
-				if (ignore) {
-					to.scrollTop = from.scrollTop *
-						(to.scrollHeight - to.clientHeight) /
-						(from.scrollHeight - from.clientHeight);
-				}
-			};
-		})();
-		this.open = function(index) {
-			open = index;
-			if (index == 0) {
-				item = null;
-				title.value = "";
-				source.value = "";
-				preview.innerHTML = "";
-			} else {
-				item = store[open - 1];
+		this.new = function() {
+			item = null;
+			title.value = "";
+			source.value = "";
+			preview.innerHTML = "";
+			document.body.classList.add("open");
+			note.innerHTML = "";
+		};
+		this.open = function(id) {
+			this.get(id, function(note) {
+				item = note;
 				title.value = item.title;
 				source.value = item.content;
 				preview.innerHTML = markdown(item.content);
-			}
-			document.body.classList.add("open");
-			note.innerHTML = "";
+				document.body.classList.add("open");
+				note.innerHTML = "";
+			});
 		};
 		this.save = function(callback) {
 			if (saving) return;
 			var complete = function(update) {
-				open = 1;
 				item = update;
-				store.unshift(update);
-				display(update);
 				saving = false;
-				if (callback != undefined)
-					callback.call(null, update);
+				if (callback != undefined) callback.call(null, update);
 			};
-			if (open === 0) {
-				notes.add(fetch(), complete);
+			if (item == null) {
+				this.add(fetch(), complete);
 			} else {
-				store.splice(store.indexOf(item), 1);
-				aside.children[open].remove();
-				notes.update(item.time, fetch(), complete);
+				this.update(item.time, fetch(), complete);
 			}
 		};
 		this.close = function() {
 			document.body.classList.remove("open");
 		};
 		aside.addEventListener("click", function(event) {
-			if (element = event.target.closest("aside > *"))
-				this.open(element.index());
+			if (event.target.nodeName == "H2")
+				this.new();
+			else if (element = event.target.closest("aside > *"))
+				this.open(store[element.index() - 1]);
 		}.bind(this));
 		aside.addEventListener("mouseover", function(event) {
 			if (event.target.nodeName == "H2") {
@@ -258,13 +263,15 @@ Date.prototype.format = function(format, utc) {
 				var index = element.index();
 				if (index != hover) {
 					hover = index;
-					var item = store[element.index() - 1];
-					note.innerHTML = "<h1>" + item.title + "</h1>" + markdown(item.content);
+					this.get(store[element.index() - 1], function(item) {
+						note.innerHTML = "<h1>" + item.title + "</h1>" + markdown(item.content);
+					});
 				}
 			}
-		});
+		}.bind(this));
 		source.addEventListener("keyup", function(event) {
 			preview.innerHTML = markdown(source.value);
+			scroll(source, preview);
 			this.save();
 		}.bind(this));
 		title.addEventListener("keyup", function(event) {
@@ -279,8 +286,13 @@ Date.prototype.format = function(format, utc) {
 		back.addEventListener("click", function() {
 			this.close();
 		}.bind(this));
+		mode.addEventListener("click", function() {
+			var value = mode.innerHTML;
+			mode.innerHTML = mode.getAttribute("data-switch");
+			mode.setAttribute("data-switch", value);
+			main.classList.toggle("edit");
+		});
 		this.find(function(notes) {
-			store = notes.slice(0).reverse();
 			notes.forEach(display);
 		});
 	};
