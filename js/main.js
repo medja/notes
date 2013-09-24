@@ -3,7 +3,6 @@ window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || 
 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 
 String.prototype.ifEmpty = function(value) {
-	console.log(this == "" ? value : this);
 	return this == "" ? value : this;
 }
 
