@@ -96,6 +96,7 @@ header input {
 }
 
 #source {
+	display: none;
 	padding: 0 20px 20px 0;
 }
 
@@ -124,25 +125,28 @@ footer {
 	background: #eaeaea;
 }
 
-#back {
+#back, #switch {
 	border: none;
-	padding: 0;
+	padding: 0 20px;
 	margin: 0;
 	background: #333333;
 	height: 100%;
 	outline: none;
 	cursor: pointer;
-	width: 80px;
 	color: #ffffff;
 	font-size: 22px;
 }
 
+#switch {
+	float: right;
+}
+
 main.edit #source {
-	display: none;
+	display: block;
 }
 
 main.edit #preview {
-	display: block;
+	display: none;
 }
 
 body.open main {
