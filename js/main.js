@@ -167,7 +167,6 @@ Date.prototype.format = function(format, utc) {
 			return function(from, to) {
 				ignore = !ignore;
 				if (ignore) {
-					console.log(new Date().getTime());
 					to.scrollTop = from.scrollTop *
 						(to.scrollHeight - to.clientHeight) /
 						(from.scrollHeight - from.clientHeight);
