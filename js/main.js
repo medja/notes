@@ -139,8 +139,6 @@ Date.prototype.format = function(format, utc) {
 		source = document.querySelector("#source textarea"),
 		preview = document.querySelector("#preview"),
 		title = document.querySelector("header input"),
-		back = document.querySelector("#back"),
-		mode = document.querySelector("#switch"),
 		hover = 0, item, store = [], saving = false,
 		display = function(note) {
 			store.unshift(note.time);
@@ -219,6 +217,7 @@ Date.prototype.format = function(format, utc) {
 			title.value = "";
 			source.value = "";
 			preview.innerHTML = "";
+			main.classList.add("edit");
 			document.body.classList.add("open");
 			note.innerHTML = "";
 		};
@@ -248,6 +247,7 @@ Date.prototype.format = function(format, utc) {
 			}
 		};
 		this.close = function() {
+			main.classList.remove("edit");
 			document.body.classList.remove("open");
 		};
 		aside.addEventListener("click", function(event) {
@@ -284,14 +284,14 @@ Date.prototype.format = function(format, utc) {
 		preview.addEventListener("scroll", function() {
 			scroll(preview, source);
 		});
-		back.addEventListener("click", function() {
+		document.querySelector("#back").addEventListener("click", function() {
 			this.close();
 		}.bind(this));
-		mode.addEventListener("click", function() {
-			var value = mode.innerHTML;
-			mode.innerHTML = mode.getAttribute("data-switch");
-			mode.setAttribute("data-switch", value);
-			main.classList.toggle("edit");
+		document.querySelector("#switch-edit").addEventListener("click", function() {
+			main.classList.add("edit");
+		});
+		document.querySelector("#switch-preview").addEventListener("click", function() {
+			main.classList.remove("edit");
 		});
 		this.find(function(notes) {
 			notes.forEach(display);

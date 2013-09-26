@@ -89,6 +89,14 @@ header input {
 	font-weight: bold;
 }
 
+#readonly {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+
 #source, #preview {
 	top: 60px;
 	left: 0;
@@ -128,7 +136,7 @@ footer {
 	background: #eaeaea;
 }
 
-#back, #switch {
+button {
 	border: none;
 	padding: 0 20px;
 	margin: 0;
@@ -140,15 +148,19 @@ footer {
 	font-size: 22px;
 }
 
-#switch {
+button[id^=switch] {
 	float: right;
 }
 
-main.edit #source {
+#switch-preview {
+	display: none;
+}
+
+main.edit #source, main.edit #switch-preview {
 	display: block;
 }
 
-main.edit #preview {
+main.edit #preview, main.edit #switch-edit, main.edit #readonly {
 	display: none;
 }
 
@@ -185,6 +197,10 @@ body.open aside, body.open #note {
 		overflow-y: scroll;
 	}
 
+	#readonly {
+		display: none;
+	}
+
 	#source {
 		margin: 0 5px 0 10px;
 		display: block;
@@ -193,15 +209,11 @@ body.open aside, body.open #note {
 
 	#preview {
 		margin: 0 10px 0 5px;
-		display: block;
+		display: block !important;
 		left: 50%;
 	}
 
-	#switch {
-		display: none;
-	}
-
-	main.edit #preview {
-		display: block;
+	button[id^=switch] {
+		display: none !important;
 	}
 }
