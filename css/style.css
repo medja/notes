@@ -157,7 +157,7 @@ body.open aside, body.open #note {
 	display: none;
 }
 
-@media all and (min-width: 360px) {
+@media all and (min-width: 400px) {
 	aside {
 		width: 360px;
 	}
@@ -192,5 +192,9 @@ body.open aside, body.open #note {
 
 	#switch {
 		display: none;
+	}
+
+	main.edit #preview {
+		display: block;
 	}
 }
