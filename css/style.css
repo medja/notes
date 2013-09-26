@@ -35,11 +35,14 @@ aside {
 
 aside h1, aside h2 {
 	margin: 0;
+}
+
+aside h1 {
 	padding: 2px 8px;
 }
 
 aside h2 {
-	padding-top: 4px;
+	padding: 8px;
 }
 
 aside time {
@@ -168,6 +171,10 @@ body.open aside, body.open #note {
 }
 
 @media all and (min-width: 800px) {
+	aside h2 {
+		padding: 4px 8px 2px 8px;
+	}
+
 	#note {
 		display: block;
 		top: 0;
