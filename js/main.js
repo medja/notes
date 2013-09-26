@@ -233,16 +233,18 @@ Date.prototype.format = function(format, utc) {
 			});
 		};
 		this.save = function(callback) {
-			if (saving) return;
-			var complete = function(update) {
-				item = update;
-				saving = false;
-				if (callback != undefined) callback.call(null, update);
-			};
-			if (item == null) {
-				this.add(fetch(), complete);
-			} else {
-				this.update(item.time, fetch(), complete);
+			if (!saving) {
+				saving = true;
+				var complete = function(update) {
+					item = update;
+					saving = false;
+					if (callback != undefined) callback.call(null, update);
+				}.bind(this);
+				if (item == null) {
+					this.add(fetch(), complete);
+				} else {
+					this.update(item.time, fetch(), complete);
+				}
 			}
 		};
 		this.close = function() {
