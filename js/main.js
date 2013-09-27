@@ -287,12 +287,14 @@ Date.prototype.format = function(format, utc) {
 		document.querySelector("#back").addEventListener("click", function() {
 			this.close();
 		}.bind(this));
+		/*
 		document.querySelector("#switch-edit").addEventListener("click", function() {
 			main.classList.add("edit");
 		});
 		document.querySelector("#switch-preview").addEventListener("click", function() {
 			main.classList.remove("edit");
 		});
+		*/
 		this.find(function(notes) {
 			notes.forEach(display);
 		});

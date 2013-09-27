@@ -2,6 +2,41 @@ body {
 	font-family: 'PT Sans', sans-serif;
 }
 
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.cover {
+	height: 100%;
+	left: 0;
+	top: 0;
+	width: 100%;
+}
+
+.readonly {
+	position: absolute;
+}
+
+input, textarea, button {
+	background: none;
+	border: none;
+	height: 100%;
+	margin: 0;
+	outline: none;
+}
+
+button {
+	background: #333333;
+	color: #ffffff;
+	cursor: pointer;
+	font-size: 22px;
+	padding: 0 20px;
+}
+
 h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote {
 	margin: 10px 0
 }
@@ -25,12 +60,8 @@ main, aside, #note, header, #source, #preview, footer {
 	position: fixed;
 }
 
-aside {
+aside, main header, main section, main footer {
 	background: #eaeaea;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
 }
 
 aside h1, aside h2 {
@@ -43,6 +74,8 @@ aside h1 {
 
 aside h2 {
 	padding: 8px;
+	background: #333333;
+	color: #ffffff;
 }
 
 aside time {
@@ -53,114 +86,12 @@ aside article, aside h2 {
 	cursor: pointer;
 }
 
-aside h2 {
-	background: #333333;
-	color: #ffffff;
-}
-
 aside article:hover {
 	background: #e74c3c;
 	color: #ffffff;
 }
 
-main, #note {
-	display: none;
-}
-
-header {
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 50px;
-	background: #eaeaea;
-}
-
-header input {
-	border: none;
-	background: none;
-	outline: none;
-	margin: 0;
-	padding: 0 10px;
-	height: 100%;
-	left: 0;
-	right: 0;
-	position: absolute;
-	font-size: 28px;
-	font-weight: bold;
-}
-
-#readonly {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-}
-
-#source, #preview {
-	top: 60px;
-	left: 0;
-	right: 0;
-	bottom: 50px;
-	margin: 0 10px;
-	background: #eaeaea;
-}
-
-#source {
-	display: none;
-	padding: 0 20px 20px 0;
-}
-
-#source textarea {
-	resize: none;
-	padding: 10px;
-	margin: 0;
-	background: none;
-	border: none;
-	height: 100%;
-	width: 100%;
-	outline: none;
-	font-size: 14px;
-}
-
-#preview {
-	padding: 0 10px;
-	overflow-y: scroll;
-}
-
-footer {
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	height: 40px;
-	background: #eaeaea;
-}
-
-button {
-	border: none;
-	padding: 0 20px;
-	margin: 0;
-	background: #333333;
-	height: 100%;
-	outline: none;
-	cursor: pointer;
-	color: #ffffff;
-	font-size: 22px;
-}
-
-button[id^=switch] {
-	float: right;
-}
-
-#switch-preview {
-	display: none;
-}
-
-main.edit #source, main.edit #switch-preview {
-	display: block;
-}
-
-main.edit #preview, main.edit #switch-edit, main.edit #readonly {
+main {
 	display: none;
 }
 
@@ -172,9 +103,63 @@ body.open aside, body.open #note {
 	display: none;
 }
 
+header {
+	height: 50px !important;
+}
+
+header input {
+	font-size: 28px;
+	font-weight: bold;
+	left: 0;
+	padding: 0 10px;
+	position: absolute;
+	right: 0;
+}
+
+#source, #preview {
+	bottom: 50px;
+	left: 0;
+	margin: 0 10px;
+	right: 0;
+	top: 60px;
+}
+
+#source {
+	display: none;
+	padding: 0 20px 20px 0;
+}
+
+#source textarea {
+	font-size: 14px;
+	padding: 10px;
+	resize: none;
+	width: 100%;
+}
+
+#preview {
+	overflow-y: scroll;
+	padding: 0 10px;
+}
+
+footer {
+	background: #eaeaea;
+	bottom: 0;
+	height: 40px;
+	left: 0;
+	width: 100%;
+}
+
+main.edit #source {
+	display: block;
+}
+
+main.edit #preview, main.edit .readonly {
+	display: none;
+}
+
 @media all and (min-width: 400px) {
 	aside {
-		width: 360px;
+		width: 360px !important;
 	}
 
 	aside article, aside h2 {
@@ -189,31 +174,27 @@ body.open aside, body.open #note {
 
 	#note {
 		display: block;
-		top: 0;
-		left: 360px;
-		right: 0;
 		height: 100%;
-		padding: 0 16px;
+		left: 360px;
 		overflow-y: scroll;
+		padding: 0 16px;
+		right: 0;
+		top: 0;
 	}
 
-	#readonly {
+	.readonly {
 		display: none;
 	}
 
 	#source {
-		margin: 0 5px 0 10px;
 		display: block;
+		margin: 0 5px 0 10px;
 		right: 50%;
 	}
 
 	#preview {
-		margin: 0 10px 0 5px;
 		display: block !important;
 		left: 50%;
-	}
-
-	button[id^=switch] {
-		display: none !important;
+		margin: 0 10px 0 5px;
 	}
 }
