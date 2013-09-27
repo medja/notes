@@ -149,6 +149,10 @@ footer {
 	width: 100%;
 }
 
+#settings {
+	padding: 0 10px;
+}
+
 main.edit #source {
 	display: block;
 }
