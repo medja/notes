@@ -197,7 +197,7 @@ Date.prototype.format = function(format, utc) {
 			};
 		};
 		this.add = function(item, callback) {
-			item.time = new Date().getTime();
+			item.time = item.time || new Date().getTime();
 			db.transaction("notes", "readwrite").objectStore("notes").add(item).onsuccess = function() {
 				display(item);
 				if (callback != undefined) callback.call(null, item);
