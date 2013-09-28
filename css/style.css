@@ -91,6 +91,10 @@ aside article:hover {
 	color: #ffffff;
 }
 
+#note {
+	display: none;
+}
+
 main {
 	display: none;
 }
