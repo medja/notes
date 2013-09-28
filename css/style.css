@@ -17,10 +17,6 @@ body {
 	width: 100%;
 }
 
-.readonly {
-	position: absolute;
-}
-
 input, textarea, button {
 	background: none;
 	border: none;
@@ -157,7 +153,7 @@ main.edit #source {
 	display: block;
 }
 
-main.edit #preview, main.edit .readonly {
+main.edit #preview {
 	display: none;
 }
 
@@ -184,10 +180,6 @@ main.edit #preview, main.edit .readonly {
 		padding: 0 16px;
 		right: 0;
 		top: 0;
-	}
-
-	.readonly {
-		display: none;
 	}
 
 	#source {

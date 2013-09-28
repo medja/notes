@@ -275,8 +275,13 @@ Date.prototype.format = function(format, utc) {
 			scroll(source, preview);
 			this.save();
 		}.bind(this));
+		title.addEventListener("keydown", function(event) {
+			if (window.innerWidth < 800 && !main.classList.contains("edit"))
+				event.preventDefault();
+		}.bind(this));
 		title.addEventListener("keyup", function(event) {
-			this.save();
+			if (window.innerWidth >= 800 || main.classList.contains("edit"))
+				this.save();
 		}.bind(this));
 		source.addEventListener("scroll", function() {
 			scroll(source, preview);
