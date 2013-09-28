@@ -65,7 +65,10 @@ aside h1, aside h2 {
 }
 
 aside h1 {
+	overflow: hidden;
 	padding: 2px 8px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 aside h2 {
