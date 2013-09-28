@@ -52,6 +52,10 @@ textarea, code {
 	font-family: 'Cousine', monospace;
 }
 
+code {
+	white-space: pre;
+}
+
 main, aside, #note, header, #source, #preview, footer {
 	position: fixed;
 }
@@ -179,7 +183,7 @@ main.edit #preview {
 		display: block;
 		height: 100%;
 		left: 360px;
-		overflow-y: scroll;
+		overflow-y: auto;
 		padding: 0 16px;
 		right: 0;
 		top: 0;
