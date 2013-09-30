@@ -141,7 +141,10 @@ Date.prototype.format = function(format, utc) {
 		title = document.querySelector("header input"),
 		hover = 0, item, store = [], saving = false,
 		display = function(note) {
-			store.unshift(note.time);
+			var index = Math.max(store.findIndex(function(time) {
+				return time < note.time;
+			}), 0);
+			store.splice(index, 0, note.time);
 			var element = document.createElement("article");
 			var title = document.createElement("h1");
 			title.innerHTML = note.title.escape();
@@ -151,7 +154,7 @@ Date.prototype.format = function(format, utc) {
 			time.setAttribute("datetime", date.format(Date.ISO));
 			time.innerHTML = date.format("HH:mm DD/MM/YYYY");
 			element.appendChild(time);
-			aside.insertAfter(element, aside.children[0]);
+			aside.insertAfter(element, aside.children[index]);
 		},
 		fetch = function() {
 			return {
