@@ -122,9 +122,9 @@ Date.prototype.format = function(format, utc) {
 		inline = function(markdown) {
 			return markdown.trim().escape()
 				.replace(/\s{2,}$/gm, "<br>")
-				.replace(/(?:\s|^)(?:\*|\_){2}(.*?)(?:\*|\_){2}/gm, " <strong>$1</strong>")
-				.replace(/(?:\s|^)(?:\*|\_)(.*?)(?:\*|\_)/gm, " <em>$1</em>")
-				.replace(/`(.*?)`/g, "<code>$1</code>")
+				.replace(/(?:\*|\_){2}((?:.|\n)*?)(?:\*|\_){2}/g, "<strong>$1</strong>")
+				.replace(/(?:\*|\_)((?:.|\n)*?)(?:\*|\_)/g, "<em>$1</em>")
+				.replace(/`((?:.|\n)*?)`/g, "<code>$1</code>")
 				.replace(/\!\[(.*?)\]\((.+?)(?:\s+&quot;(.*?)&quot;)?\)/g,
 					"<img src=\"$2\" alt=\"$1\" title=\"$3\">")
 				.replace(/\[(.*?)\]\((.+?)(?:\s+&quot;(.*?)&quot;)?\)/g,
