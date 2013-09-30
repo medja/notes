@@ -157,11 +157,13 @@ Date.prototype.format = function(format, utc) {
 			aside.insertAfter(element, aside.children[index]);
 		},
 		fetch = function() {
-			return {
+			var update = {
 				title: title.value.trim().ifEmpty(title.placeholder),
 				content: source.value,
 				tags: []
 			};
+			if (item != null) update.id = item.id;
+			return update;
 		},
 		inputs = function() {
 			title.readOnly = window.innerWidth < 800 && !main.classList.contains("edit");
@@ -201,6 +203,7 @@ Date.prototype.format = function(format, utc) {
 		};
 		this.add = function(item, callback) {
 			item.time = item.time || new Date().getTime();
+			item.id = item.id || item.time;
 			db.transaction("notes", "readwrite").objectStore("notes").add(item).onsuccess = function() {
 				display(item);
 				if (callback != undefined) callback.call(null, item);
