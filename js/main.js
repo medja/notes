@@ -2,7 +2,7 @@ window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndex
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 
-String.prototype.ifEmpty = function(value) {
+String.prototype.default = function(value) {
 	return this == "" ? value : this;
 }
 
@@ -158,7 +158,7 @@ Date.prototype.format = function(format, utc) {
 		},
 		fetch = function() {
 			var update = {
-				title: title.value.trim().ifEmpty(title.placeholder),
+				title: title.value.trim().default(title.placeholder),
 				content: source.value,
 				tags: []
 			};
