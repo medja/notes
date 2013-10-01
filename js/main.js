@@ -69,6 +69,17 @@ Date.prototype.format = function(format, utc) {
 	return time;
 };
 
+if (!Array.prototype.findIndex) {
+	Array.prototype.findIndex = function(callback, scope) {
+		for (var i = this.length - 1; i >= 0; i--) {
+			if (i in this && callback.call(scope, this[i], i, this)) {
+				return i;
+			}
+		}
+		return -1;
+	};
+}
+
 (function() {
 	var markdown = (function() {
 		var parse = function(markdown) {
