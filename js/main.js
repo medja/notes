@@ -285,6 +285,7 @@ if (!Array.prototype.findIndex) {
 				if (index != hover) {
 					hover = index;
 					this.get(store[element.index() - 1], function(item) {
+						note.scrollTop = 0;
 						note.innerHTML = "<h1>" + item.title + "</h1>" + markdown(item.content);
 					});
 				}
