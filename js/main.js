@@ -38,6 +38,13 @@ HTMLElement.prototype.index = function() {
 	return Array.prototype.slice.call(this.parentElement.children).indexOf(this);
 };
 
+
+if (!HTMLElement.prototype.remove) {
+	HTMLElement.prototype.remove = function() {
+		this.parent.removeChild(this);
+	};
+}
+
 String.prototype.repeat = function(count) {
 	return new Array(count + 1).join(this);
 };

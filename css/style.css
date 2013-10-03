@@ -144,7 +144,7 @@ header input {
 }
 
 #preview {
-	overflow-y: auto;
+	overflow-y: scroll;
 	padding: 0 10px;
 }
 
