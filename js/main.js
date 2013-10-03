@@ -271,6 +271,8 @@ if (!Array.prototype.findIndex) {
 			document.body.classList.remove("open");
 		};
 		this.import = function(notes) {
+			if (notes instanceof String || !notes instanceof Object)
+				notes = JSON.parse(notes);
 			if (!notes instanceof Array) notes = [notes];
 			notes.forEach(function(note) {
 				this.add(note);
