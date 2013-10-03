@@ -98,7 +98,7 @@ if (!Array.prototype.findIndex) {
 					html += "<code>" + block.trim()
 						.replace(/^\s{4}/gm, "").escape() + "</code>";
 				} else if (match = /^\s?(\*|\+|\-|\d+\.)\s/.exec(block)) {
-					var tag, regex = match[0][0] === " " ? "\\s" : "";
+					var tag, item, regex = match[0][0] === " " ? "\\s" : "";
 					if (match[1][0].isNumeric()) {
 						tag = "ol";
 						regex += "\\d+\\.";
