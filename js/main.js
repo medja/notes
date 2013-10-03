@@ -315,6 +315,8 @@ if (!Array.prototype.findIndex) {
 		}.bind(this));
 		source.addEventListener("keyup", function(event) {
 			preview.innerHTML = markdown(source.value);
+			if (source.value.length - source.selectionEnd === 0)
+				source.scrollTop = source.scrollHeight - source.clientHeight;
 			scroll(source, preview);
 			this.save();
 		}.bind(this));
