@@ -41,7 +41,7 @@ HTMLElement.prototype.index = function() {
 
 if (!HTMLElement.prototype.remove) {
 	HTMLElement.prototype.remove = function() {
-		this.parent.removeChild(this);
+		this.parentElement.removeChild(this);
 	};
 }
 
