@@ -114,13 +114,18 @@ header {
 	height: 50px !important;
 }
 
+header div {
+	bottom: 0;
+	left: 10px;
+	position: absolute;
+	right: 10px;
+	top: 0;
+}
+
 header input {
 	font-size: 28px;
 	font-weight: bold;
-	left: 0;
-	padding: 0 10px;
-	position: absolute;
-	right: 0;
+	width: 100%;
 }
 
 #source, #preview {
