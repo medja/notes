@@ -191,9 +191,14 @@ if (!Array.prototype.findIndex) {
 			return function(from, to) {
 				ignore = !ignore;
 				if (ignore) {
-					to.scrollTop = from.scrollTop *
-						(to.scrollHeight - to.clientHeight) /
-						(from.scrollHeight - from.clientHeight);
+					var diff = from.scrollHeight - from.clientHeight;
+					if (diff > 0) {
+						to.scrollTop = from.scrollTop *
+							(to.scrollHeight - to.clientHeight) / diff;
+					} else if (from.nodeName == "TEXTAREA") {
+						to.scrollTop = from.selectionEnd *
+							(to.scrollHeight - to.clientHeight) / from.value.length;
+					}
 				}
 			};
 		})();
