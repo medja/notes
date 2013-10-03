@@ -339,6 +339,27 @@ if (!Array.prototype.findIndex) {
 		document.querySelector("#back").addEventListener("click", function() {
 			this.close();
 		}.bind(this));
+		(function() {
+			var time, start, end;
+			window.addEventListener("touchstart", function(event) {
+				time = new Date().getTime();
+				start = [event.touches[0].clientX, event.touches[0].clientY];
+				end = null;
+			});
+			window.addEventListener("touchmove", function(event) {
+				event.preventDefault();
+				end = [event.touches[0].clientX, event.touches[0].clientY];
+			});
+			window.addEventListener("touchend", function(event) {
+				if (end != null) {
+					var move = end[0] - start[0];
+					if (Math.abs(move / (new Date().getTime() - time)) > 0.35
+						&& move > 160 && Math.abs(y = end[1] - start[1]) < 100) {
+						this.close();
+					}
+				}
+			}.bind(this));
+		}.bind(this))();
 		window.addEventListener("resize", inputs);
 		/*
 		document.querySelector("#switch-edit").addEventListener("click", function() {
