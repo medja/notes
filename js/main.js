@@ -270,6 +270,26 @@ if (!Array.prototype.findIndex) {
 			main.classList.remove("edit");
 			document.body.classList.remove("open");
 		};
+		this.import = function(notes) {
+			if (!notes instanceof Array) notes = [notes];
+			notes.forEach(function(note) {
+				this.add(note);
+			}.bind(this));
+		};
+		this.export = function(id, callback) {
+			if (callback == undefined) {
+				callback = id;
+				id = null; }
+			if (id == null) {
+				this.find(function(notes) {
+					callback.call(null, JSON.stringify(notes));
+				});
+			} else {
+				this.get(id, function(note) {
+					callback.call(null, JSON.stringify(note));
+				});
+			}
+		};
 		aside.addEventListener("click", function(event) {
 			if (event.target.nodeName == "H2")
 				this.new();
