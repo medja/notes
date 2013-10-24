@@ -16,10 +16,9 @@ String.prototype.isNumeric = function() {
 
 String.prototype.list = function() {
 	if (delimiter == undefined) delimiter = ",";
-	if (this.trim() == "") return [];
 	return this.split(delimiter).map(function(item) {
 		return item.trim();
-	});
+	}).filter(function(item) { return item != ""; });
 };
 
 HTMLElement.prototype.insertAfter = function(element, target) {
@@ -91,7 +90,6 @@ if (!Array.prototype.findIndex) {
 	var markdown = (function() {
 		var parse = function(markdown) {
 			var html = "";
-			var debug = markdown[0] == "T";
 			var matches = (markdown.replace(/\t/g, "    ") + "\n\n").match(/(.*\n)+?\n+/g);
 			for (var i = 0; i < matches.length; i++) {
 				var block = matches[i];
@@ -153,11 +151,11 @@ if (!Array.prototype.findIndex) {
 	var app = function(db) {
 		var aside = document.querySelector("aside"),
 		note = document.querySelector("#note"),
-		main = document.querySelector("main"),
 		source = document.querySelector("#source textarea"),
 		preview = document.querySelector("#preview"),
 		title = document.querySelector("header input"),
-		hover = 0, item, store = [], saving = false,
+		settings = document.querySelector("#settings"),
+		item, store = [], saving = false, created = false,
 		display = function(note) {
 			var index = Math.max(store.findIndex(function(time) {
 				return time < note.time;
@@ -182,9 +180,6 @@ if (!Array.prototype.findIndex) {
 			};
 			if (item != null) update.id = item.id;
 			return update;
-		},
-		inputs = function() {
-			title.readOnly = window.innerWidth < 800 && !main.classList.contains("edit");
 		},
 		scroll = (function() {
 			var ignore = false;
@@ -244,24 +239,31 @@ if (!Array.prototype.findIndex) {
 				this.add(update, callback);
 			}.bind(this));
 		};
+		this.open = function(id) {
+			this.get(id, function(item) {
+				note.scrollTop = 0;
+				note.innerHTML = "<h1>" + item.title + "</h1>" + markdown(item.content);
+			});
+			if (elm = document.querySelector("aside article.open"))
+				elm.classList.remove("open");
+			document.querySelector("aside article:nth-child("
+				+ (store.indexOf(id) + 2) + ")").classList.add("open");
+		};
 		this.new = function() {
 			item = null;
 			title.value = "";
 			source.value = "";
 			preview.innerHTML = "";
-			main.classList.add("edit");
 			document.body.classList.add("open");
-			note.innerHTML = "";
 		};
-		this.open = function(id) {
+		this.edit = function(id) {
 			this.get(id, function(note) {
 				item = note;
 				title.value = item.title;
 				source.value = item.content;
 				preview.innerHTML = markdown(item.content);
-				document.body.classList.add("open");
-				note.innerHTML = "";
 			});
+			document.body.classList.add("open");
 		};
 		this.save = function(callback) {
 			if (!saving) {
@@ -272,6 +274,7 @@ if (!Array.prototype.findIndex) {
 					if (callback != undefined) callback.call(null, update);
 				}.bind(this);
 				if (item == null) {
+					created = true;
 					this.add(fetch(), complete);
 				} else {
 					this.update(item.time, fetch(), complete);
@@ -279,7 +282,7 @@ if (!Array.prototype.findIndex) {
 			}
 		};
 		this.close = function() {
-			main.classList.remove("edit");
+			if (created) this.open(store[0]);
 			document.body.classList.remove("open");
 		};
 		this.import = function(notes) {
@@ -305,34 +308,23 @@ if (!Array.prototype.findIndex) {
 			}
 		};
 		aside.addEventListener("click", function(event) {
-			if (event.target.nodeName == "H2")
-				this.new();
-			else if (element = event.target.closest("aside > *"))
-				this.open(store[element.index() - 1]);
-		}.bind(this));
-		aside.addEventListener("mouseover", function(event) {
 			if (event.target.nodeName == "H2") {
-				hover = 0;
-				note.innerHTML = "";
+				this.new();
 			} else if (element = event.target.closest("aside article")) {
-				var index = element.index();
-				if (index != hover) {
-					hover = index;
-					this.get(store[element.index() - 1], function(item) {
-						note.scrollTop = 0;
-						note.innerHTML = "<h1>" + item.title + "</h1>" + markdown(item.content);
-					});
-				}
+				this.open(store[element.index() - 1]);
 			}
 		}.bind(this));
-		source.addEventListener("keyup", function(event) {
+		document.querySelector("#edit").addEventListener("click", function() {
+			this.edit(store[document.querySelector("aside article.open").index() - 1]);
+		}.bind(this));
+		source.addEventListener("input", function(event) {
 			preview.innerHTML = markdown(source.value);
 			if (source.value.length - source.selectionEnd === 0)
 				source.scrollTop = source.scrollHeight - source.clientHeight;
 			scroll(source, preview);
 			this.save();
 		}.bind(this));
-		title.addEventListener("keyup", function(event) {
+		title.addEventListener("input", function(event) {
 			this.save();
 		}.bind(this));
 		source.addEventListener("scroll", function() {
@@ -343,6 +335,12 @@ if (!Array.prototype.findIndex) {
 		});
 		document.querySelector("#back").addEventListener("click", function() {
 			this.close();
+		}.bind(this));
+		document.querySelector("#delete").addEventListener("click", function() {
+			this.remove(store[document.querySelector("aside article.open").index() - 1]);
+			this.close();
+			this.open(store[0]);
+			aside.scrollTop = 0;
 		}.bind(this));
 		(function() {
 			var time, start, end;
@@ -365,18 +363,10 @@ if (!Array.prototype.findIndex) {
 				}
 			}.bind(this));
 		}.bind(this))();
-		window.addEventListener("resize", inputs);
-		/*
-		document.querySelector("#switch-edit").addEventListener("click", function() {
-			main.classList.add("edit");
-		});
-		document.querySelector("#switch-preview").addEventListener("click", function() {
-			main.classList.remove("edit");
-		});
-		*/
 		this.find(function(notes) {
 			notes.forEach(display);
-		});
+			this.open(store[0]);
+		}.bind(this));
 	};
 	var request = window.indexedDB.open("notes", 1);
 	request.onupgradeneeded = function() {
