@@ -175,7 +175,7 @@ footer {
 }
 
 #settings:focus #menu {
-	display: block;
+	display: inline-block;
 }
 
 #menu li {
@@ -248,15 +248,15 @@ header, #source, #preview {
 	display: none;
 }
 
-.open aside, .open #note, .open #edit {
+.edit aside, .edit #note, .edit #edit {
 	display: none;
 }
 
-.open header, .open #source, .open #preview {
+.edit header, .edit #source, .edit #preview {
 	display: block;
 }
 
-.open #back {
+.edit #back {
 	display: inline-block;
 }
 
@@ -291,14 +291,43 @@ header, #source, #preview {
 		right: 16px;
 	}
 
+	aside article.open {
+		border-left: 4px solid transparent;
+	}
+
 	#note {
+		display: none;
+	}
+
+	.open aside {
+		display: none;
+	}
+
+	.open #note {
+		display: block;
+		left: 16px;
+	}
+
+	.open #edit {
+		display: none;
+	}
+
+	.open #back {
+		display: inline-block;
+	}
+
+	#source {
+		margin: 0 20px 20px 0;
+		right: 16px;
+	}
+
+	.edit #preview {
 		display: none;
 	}
 }
 
 @media all and (max-width: 500px) {
 	aside {
-		bottom: 0;
 		left: 0;
 		right: 0;
 		top: 0;
@@ -307,5 +336,11 @@ header, #source, #preview {
 	aside div {
 		left: 0;
 		right: 0;
+	}
+
+	.open #note {
+		left: 0;
+		right: 0;
+		top: 0;
 	}
 }

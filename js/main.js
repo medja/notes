@@ -254,7 +254,7 @@ if (!Array.prototype.findIndex) {
 			title.value = "";
 			source.value = "";
 			preview.innerHTML = "";
-			document.body.classList.add("open");
+			document.body.classList.add("edit");
 		};
 		this.edit = function(id) {
 			this.get(id, function(note) {
@@ -263,7 +263,7 @@ if (!Array.prototype.findIndex) {
 				source.value = item.content;
 				preview.innerHTML = markdown(item.content);
 			});
-			document.body.classList.add("open");
+			document.body.classList.add("edit");
 		};
 		this.save = function(callback) {
 			if (!saving) {
@@ -283,7 +283,7 @@ if (!Array.prototype.findIndex) {
 		};
 		this.close = function() {
 			if (created) this.open(store[0]);
-			document.body.classList.remove("open");
+			document.body.classList.remove("edit");
 		};
 		this.import = function(notes) {
 			if (notes instanceof String || !notes instanceof Object)
@@ -311,6 +311,7 @@ if (!Array.prototype.findIndex) {
 			if (event.target.nodeName == "H2") {
 				this.new();
 			} else if (element = event.target.closest("aside article")) {
+				if (window.innerWidth <= 800) document.body.classList.add("open");
 				this.open(store[element.index() - 1]);
 			}
 		}.bind(this));
@@ -334,6 +335,7 @@ if (!Array.prototype.findIndex) {
 			scroll(preview, source);
 		});
 		document.querySelector("#back").addEventListener("click", function() {
+			document.body.classList.remove("open");
 			this.close();
 		}.bind(this));
 		document.querySelector("#delete").addEventListener("click", function() {
@@ -363,6 +365,9 @@ if (!Array.prototype.findIndex) {
 				}
 			}.bind(this));
 		}.bind(this))();
+		window.addEventListener("resize", function() {
+			if (window.innerWidth > 800) document.body.classList.remove("open");
+		});
 		this.find(function(notes) {
 			notes.forEach(display);
 			this.open(store[0]);
