@@ -251,13 +251,14 @@ footer {
 	right: 10px;
 }
 
-#settings:focus #menu {
+#settings:focus ~ #menu, #menu:hover {
 	display: inline-block;
 }
 
 #menu li {
 	cursor: pointer;
 	list-style: none;
+	padding: 0 8px;
 }
 
 #menu .arrow {
@@ -265,6 +266,7 @@ footer {
 	border-top-color: #222425;
 	bottom: -16px;
 	position: absolute;
+	padding: 0;
 	right: 7px;
 }
 
