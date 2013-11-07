@@ -1,0 +1,42 @@
+CACHE MANIFEST
+
+# Notes
+# Version: 0.0.1a
+
+CACHE:
+
+LICENSE
+font/LICENSE
+
+index.html
+js/main.js
+css/style.css
+
+font/Cousine.eot
+font/Cousine.svg
+font/Cousine.ttf
+font/Cousine.woff
+font/OpenSans.eot
+font/OpenSans.svg
+font/OpenSans.ttf
+font/OpenSans.woff
+font/OpenSansBold.eot
+font/OpenSansBold.svg
+font/OpenSansBold.ttf
+font/OpenSansBold.woff
+font/OpenSansBoldItalic.eot
+font/OpenSansBoldItalic.svg
+font/OpenSansBoldItalic.ttf
+font/OpenSansBoldItalic.woff
+font/OpenSansItalic.eot
+font/OpenSansItalic.svg
+font/OpenSansItalic.ttf
+font/OpenSansItalic.woff
+font/OpenSansLight.eot
+font/OpenSansLight.svg
+font/OpenSansLight.ttf
+font/OpenSansLight.woff
+font/OpenSansLightItalic.eot
+font/OpenSansLightItalic.svg
+font/OpenSansLightItalic.ttf
+font/OpenSansLightItalic.woff
