@@ -136,7 +136,7 @@ button {
 	color: white;
 	cursor: pointer;
 	font-size: 12px;
-	margin: 6px 8px;
+	margin: 6px 0 6px 8px;
 	padding: 5px 15px;
 	-moz-appearance: none;
 	-webkit-appearance: none;
@@ -246,7 +246,7 @@ footer {
 	color: white;
 	display: none;
 	margin: 0;
-	padding: 8px;
+	padding: 8px 0;
 	position: fixed;
 	right: 10px;
 }
@@ -387,12 +387,20 @@ header, #source, #preview {
 		left: 16px;
 	}
 
-	.open #edit {
+	#edit {
 		display: none;
+	}
+
+	.open #edit {
+		display: inline-block;
 	}
 
 	.open #back {
 		display: inline-block;
+	}
+
+	.open.edit #edit, .open.edit #note {
+		display: none;
 	}
 
 	#source {
