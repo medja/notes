@@ -240,6 +240,7 @@ if (!Array.prototype.findIndex) {
 			}.bind(this));
 		};
 		this.open = function(id) {
+			if (id == undefined) return;
 			this.get(id, function(item) {
 				note.scrollTop = 0;
 				note.innerHTML = "<h1>" + item.title + "</h1>" + markdown(item.content);
@@ -288,7 +289,7 @@ if (!Array.prototype.findIndex) {
 		this.import = function(notes) {
 			if (notes instanceof String || !notes instanceof Object)
 				notes = JSON.parse(notes);
-			if (!notes instanceof Array) notes = [notes];
+			if (!(notes instanceof Array)) notes = [notes];
 			notes.forEach(function(note) {
 				this.add(note);
 			}.bind(this));
@@ -316,7 +317,8 @@ if (!Array.prototype.findIndex) {
 			}
 		}.bind(this));
 		document.querySelector("#edit").addEventListener("click", function() {
-			this.edit(store[document.querySelector("aside article.open").index() - 1]);
+			var element = document.querySelector("aside article.open");
+			if (element !== null) this.edit(store[element.index() - 1]);
 		}.bind(this));
 		source.addEventListener("input", function(event) {
 			preview.innerHTML = markdown(source.value);
@@ -339,10 +341,13 @@ if (!Array.prototype.findIndex) {
 			this.close();
 		}.bind(this));
 		document.querySelector("#delete").addEventListener("click", function() {
-			this.remove(store[document.querySelector("aside article.open").index() - 1]);
-			this.close();
-			this.open(store[0]);
-			aside.scrollTop = 0;
+			var element = document.querySelector("aside article.open");
+			if (element !== null) {
+				this.remove(store[element.index() - 1]);
+				this.close();
+				this.open(store[0]);
+				aside.scrollTop = 0;
+			}
 		}.bind(this));
 		(function() {
 			var time, start, end;
