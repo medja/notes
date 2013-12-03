@@ -240,7 +240,7 @@ if (!Array.prototype.findIndex) {
 			}.bind(this));
 		};
 		this.open = function(id) {
-			if (id == undefined) return;
+			if (id == undefined) return note.innerHTML = "";
 			this.get(id, function(item) {
 				note.scrollTop = 0;
 				note.innerHTML = "<h1>" + item.title + "</h1>" + markdown(item.content);
