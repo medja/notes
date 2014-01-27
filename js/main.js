@@ -64,7 +64,7 @@ Date.prototype.format = function(format, utc) {
 		type = match[0];
 		time = time.replace(match, (
 			type == "Y" ? (utc ? this.getUTCFullYear() : this.getFullYear()) :
-			type == "M" ? (utc ? this.getUTCMonth() : this.getMonth()) :
+			type == "M" ? (utc ? this.getUTCMonth() : this.getMonth()) + 1 :
 			type == "D" ? (utc ? this.getUTCDate() : this.getDate()) :
 			type == "H" ? (utc ? this.getUTCHours() : this.getHours()) :
 			type == "h" ? ((utc ? this.getUTCHours() : this.getHours()) - 1) % 12 + 1 :
