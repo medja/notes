@@ -77,7 +77,7 @@ Date.prototype.format = function(format, utc) {
 
 if (!Array.prototype.findIndex) {
 	Array.prototype.findIndex = function(callback, scope) {
-		for (var i = this.length - 1; i >= 0; i--) {
+		for (var i = 0; i < this.length; i++) {
 			if (i in this && callback.call(scope, this[i], i, this)) {
 				return i;
 			}
